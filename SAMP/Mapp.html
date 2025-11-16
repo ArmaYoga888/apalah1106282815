@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mapping Service Arvalon</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #0d0d0d;
+        color: white;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .title {
+        font-size: 24px;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .box {
+        background: #1a1a1a;
+        width: 350px;
+        padding: 20px;
+        border-radius: 14px;
+        box-shadow: 0 0 12px #000;
+        transition: .2s;
+    }
+
+    .box:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0 20px #222;
+    }
+
+    select, input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 6px;
+        border: none;
+        background: #222;
+        color: white;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 15px;
+        border: none;
+        background: #ff4444;
+        color: white;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: .2s;
+    }
+
+    button:active {
+        transform: scale(.95);
+        background: #cc0000;
+    }
+
+    #result, #delResult {
+        margin-top: 15px;
+        padding: 12px;
+        background: #222;
+        border-radius: 8px;
+        display: none;
+        font-size: 16px;
+    }
+
+    /* Popup */
+    .popup {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,.8);
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .popup-box {
+        background: #1e1e1e;
+        padding: 20px;
+        width: 300px;
+        border-radius: 12px;
+        text-align: center;
+        animation: pop .2s ease-in-out;
+    }
+
+    @keyframes pop {
+        from { transform: scale(.6); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+
+    .btn-green {
+        background: #28a745;
+    }
+
+    .btn-close {
+        background: #555;
+        margin-top: 10px;
+    }
+
+    .counterBox {
+        display: flex; 
+        gap: 10px; 
+        margin-top: 10px;
+    }
+
+    .counterBox button {
+        width: 60px;
+        background: #444;
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="title">🛠 Mapping Service Arvalon</div>
+
+<div class="container">
+
+    <!-- CREATE MAPPING -->
+    <div class="box">
+        <h2>Create Mapping</h2>
+
+        <label>Pilih Mapping</label>
+        <select id="mappingSelect">
+            <option value="">-- Pilih Mapping --</option>
+            <option value="Restoran||20000">Restoran {20K}</option>
+            <option value="Parkiran||8000">Parkiran {8K}</option>
+            <option value="Pasbek||10000">Pasbek {10K}</option>
+            <option value="House||10000">House {10K}</option>
+        </select>
+
+        <label style="margin-top:15px;">Custom Object (opsional)</label>
+        <input type="number" id="customObj" placeholder="Jumlah Object">
+
+        <small>Per Object = <b>100p</b></small>
+
+        <button onclick="hitungMapping()">Hitung Harga</button>
+
+        <div id="result"></div>
+
+        <button id="btnBeli" style="display:none;" onclick="showPopup()">Beli Sekarang</button>
+    </div>
+
+    <!-- DELETE MAPPING -->
+    <div class="box">
+        <h2>Delete Mapping</h2>
+
+        <label>Jumlah Mapping Dihapus</label>
+
+        <div class="counterBox">
+            <button onclick="kurang()">−</button>
+            <input type="number" id="delCount" value="1" min="1" style="text-align:center;">
+            <button onclick="tambah()">+</button>
+        </div>
+
+        <small>Harga per mapping delete: <b>3000</b></small>
+
+        <button onclick="hitungDelete()">Hitung Harga</button>
+
+        <div id="delResult"></div>
+
+        <button id="btnDelBeli" style="display:none;" onclick="showDelPopup()">Beli Sekarang</button>
+    </div>
+
+</div>
+
+<!-- POPUP CREATE -->
+<div id="popup" class="popup">
+    <div class="popup-box">
+        <h3>Pembayaran</h3>
+        <p id="popupText"></p>
+
+        <button class="btn-green" onclick="sendWA()">Bayar via WhatsApp</button>
+        <button class="btn-close" onclick="closePopup()">Tutup</button>
+    </div>
+</div>
+
+<!-- POPUP DELETE -->
+<div id="delPopup" class="popup">
+    <div class="popup-box">
+        <h3>Pembayaran Delete Mapping</h3>
+        <p id="delPopupText"></p>
+
+        <button class="btn-green" onclick="sendDelWA()">Bayar via WhatsApp</button>
+        <button class="btn-close" onclick="closeDelPopup()">Tutup</button>
+    </div>
+</div>
+
+
+<script>
+// ---------------------- CREATE MAPPING --------------------------
+let finalHarga = 0;
+let finalMapping = "";
+let finalObj = "";
+
+// Hitung mapping
+function hitungMapping() {
+    const mapping = document.getElementById("mappingSelect").value;
+    const custom = parseInt(document.getElementById("customObj").value);
+
+    let hargaMapping = 0;
+    let namaMapping = "";
+
+    if (mapping !== "") {
+        const s = mapping.split("||");
+        namaMapping = s[0];
+        hargaMapping = parseInt(s[1]);
+    }
+
+    let hargaCustom = 0;
+    if (!isNaN(custom) && custom > 0) {
+        hargaCustom = custom * 100; // per object 100p
+        finalObj = `${custom} object`;
+    } else {
+        finalObj = "-";
+    }
+
+    finalHarga = hargaMapping + hargaCustom;
+    finalMapping = namaMapping !== "" ? namaMapping : "Custom Mapping";
+
+    document.getElementById("result").innerHTML = `
+        Mapping: <b>${finalMapping}</b><br>
+        Object: <b>${finalObj}</b><br>
+        Harga: <b>Rp ${finalHarga.toLocaleString()}</b>
+    `;
+    document.getElementById("result").style.display = "block";
+    document.getElementById("btnBeli").style.display = "block";
+}
+
+function showPopup() {
+    document.getElementById("popupText").innerHTML = `
+        <b>${finalMapping}</b><br>
+        Object: <b>${finalObj}</b><br>
+        Total: <b>Rp ${finalHarga.toLocaleString()}</b>
+    `;
+    document.getElementById("popup").style.display = "flex";
+}
+
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
+
+function sendWA() {
+    const no = "6289510356958";
+    const pesan = `map||${finalMapping}||${finalHarga}||${finalObj}||payment`;
+    window.open(`https://wa.me/${no}?text=${encodeURIComponent(pesan)}`, "_blank");
+}
+
+
+
+// ---------------------- DELETE MAPPING --------------------------
+let delJumlah = 1;
+let delHarga = 0;
+
+function tambah() {
+    document.getElementById("delCount").value++;
+}
+function kurang() {
+    let v = parseInt(document.getElementById("delCount").value);
+    if (v > 1) document.getElementById("delCount").value = v - 1;
+}
+
+function hitungDelete() {
+    delJumlah = parseInt(document.getElementById("delCount").value);
+    delHarga = delJumlah * 3000;
+
+    document.getElementById("delResult").innerHTML = `
+        Total Delete: <b>${delJumlah}×</b><br>
+        Harga: <b>Rp ${delHarga.toLocaleString()}</b>
+    `;
+    document.getElementById("delResult").style.display = "block";
+    document.getElementById("btnDelBeli").style.display = "block";
+}
+
+function showDelPopup() {
+    document.getElementById("delPopupText").innerHTML = `
+        Menghapus <b>${delJumlah} mapping</b><br>
+        Total: <b>Rp ${delHarga.toLocaleString()}</b>
+    `;
+    document.getElementById("delPopup").style.display = "flex";
+}
+
+function closeDelPopup() {
+    document.getElementById("delPopup").style.display = "none";
+}
+
+function sendDelWA() {
+    const no = "6289510356958";
+    const pesan = `delmap||${delJumlah}×||${delHarga}`;
+    window.open(`https://wa.me/${no}?text=${encodeURIComponent(pesan)}`, "_blank");
+}
+
+</script>
+
+</body>
+</html>

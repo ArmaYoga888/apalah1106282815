@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIST JASA DEVELOPER FROGZZ</title>
+
+<style>
+    body {
+        background: #0d0d0d;
+        color: white;
+        font-family: Arial;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        background: #1a1a1a;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+        box-shadow: 0 0 10px black;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border-radius: 8px;
+        display: inline-block;
+        background: #ff3b3b;
+        cursor: pointer;
+        font-weight: bold;
+        transition: .1s;
+        text-align: center;
+    }
+
+    .btn:active {
+        transform: scale(.9);
+    }
+
+    /* MODAL */
+    .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.4);
+        backdrop-filter: blur(4px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-box {
+        background: #111;
+        padding: 25px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 400px;
+        animation: pop .2s ease-out;
+    }
+
+    @keyframes pop {
+        from { transform: scale(.6); opacity: .3; }
+        to { transform: scale(1); opacity: 1; }
+    }
+
+    select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        margin-top: 10px;
+        background: #222;
+        color: white;
+        border: none;
+        outline: none;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>LIST JASA DEVELOPER SA:MP FROGZZ</h1>
+
+<!-- ================= BULANAN ================= -->
+<h2>BULANAN</h2>
+
+<div class="card">
+    <h3>Paket 1 – LRP</h3>
+    <p>Pengerjaan: 3× / minggu</p>
+    <p>Harga: 100K</p>
+    <span class="btn" onclick="openBuy('paket1','LRP',100000)">Beli</span>
+</div>
+
+<div class="card">
+    <h3>Paket 2 – LRP</h3>
+    <p>Pengerjaan: 5× / minggu</p>
+    <p>Harga: 150K</p>
+    <span class="btn" onclick="openBuy('paket2','LRP',150000)">Beli</span>
+</div>
+
+<div class="card">
+    <h3>Paket 3 – INFERNO</h3>
+    <p>Pengerjaan: 3× / minggu</p>
+    <p>Harga: 70K</p>
+    <span class="btn" onclick="openBuy('paket3','inferno',70000)">Beli</span>
+</div>
+
+<div class="card">
+    <h3>Paket 4 – INFERNO</h3>
+    <p>Pengerjaan: 5× / minggu</p>
+    <p>Harga: 100K</p>
+    <span class="btn" onclick="openBuy('paket4','inferno',100000)">Beli</span>
+</div>
+
+<!-- ================= MINGGUAN ================= -->
+<h2>MINGGUAN</h2>
+
+<div class="card">
+    <h3>Paket 1 – LRP</h3>
+    <p>Pengerjaan: 3×</p>
+    <p>Harga: 30K</p>
+    <span class="btn" onclick="openBuy('paket1m','LRP',30000)">Beli</span>
+</div>
+
+<div class="card">
+    <h3>Paket 2 – LRP</h3>
+    <p>Pengerjaan: 5×</p>
+    <p>Harga: 60K</p>
+    <span class="btn" onclick="openBuy('paket2m','LRP',60000)">Beli</span>
+</div>
+
+<div class="card">
+    <h3>Paket 3 – INFERNO</h3>
+    <p>Pengerjaan: 3×</p>
+    <p>Harga: 25K</p>
+    <span class="btn" onclick="openBuy('paket3m','inferno',25000)">Beli</span>
+</div>
+
+<div class="card">
+    <h3>Paket 4 – INFERNO</h3>
+    <p>Pengerjaan: 5×</p>
+    <p>Harga: 50K</p>
+    <span class="btn" onclick="openBuy('paket4m','inferno',50000)">Beli</span>
+</div>
+
+<!-- ================= MODAL BELI ================= -->
+
+<div id="modal" class="modal">
+    <div class="modal-box">
+        <h2 id="mod_title"></h2>
+        <p><b>DENGAN HARGA SEGINI BISA:</b></p>
+        <ul>
+            <li>ADD MAPPING</li>
+            <li>ADD FS</li>
+            <li>ADD TEXTDRAW</li>
+            <li>REMOVE MAPPING</li>
+            <li>REMOVE TEXTDRAW</li>
+            <li>RENAME AKAR</li>
+            <li>RENAME SETENGAH</li>
+            <li>REMAKE</li>
+        </ul>
+
+        <p><b>RULES:</b></p>
+        <ul>
+            <li>NO CREATE FS</li>
+            <li>NO CREATE SC</li>
+            <li>NO CREATE SYSTEM</li>
+        </ul>
+
+        <label>Pilih Pembayaran:</label>
+        <select id="payment">
+            <option value="QRIS">QRIS</option>
+            <option value="DANA">DANA</option>
+            <option value="GOPAY">GoPay</option>
+        </select>
+
+        <br><br>
+        <div class="btn" onclick="confirmBuy()">Beli Sekarang</div>
+
+        <br><br>
+        <div class="btn" style="background:#333" onclick="closeModal()">Tutup</div>
+    </div>
+</div>
+
+<script>
+let selected = {};
+
+function openBuy(id, gm, harga) {
+    selected = { id, gm, harga };
+    document.getElementById("mod_title").innerText =
+        `Beli ${id.toUpperCase()} – ${gm.toUpperCase()}`;
+    document.getElementById("modal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("modal").style.display = "none";
+}
+
+function confirmBuy() {
+    const pay = document.getElementById("payment").value;
+
+    const msg = `${selected.id}||${selected.gm}||${selected.harga}||${pay}`;
+    const admin = "6289510356958";
+
+    const wa = `https://wa.me/${admin}?text=${encodeURIComponent(msg)}`;
+    window.open(wa, "_blank");
+}
+</script>
+
+</body>
+</html>
