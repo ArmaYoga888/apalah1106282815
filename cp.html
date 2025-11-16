@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kode Promo | Frogzz Store</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #0a0a0a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #121212;
+      padding: 30px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 25px rgba(0, 255, 150, 0.3);
+      text-align: center;
+    }
+
+    h2 {
+      color: #00ff99;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 80%;
+      padding: 10px;
+      border: 2px solid #00ff99;
+      border-radius: 10px;
+      background: black;
+      color: white;
+      outline: none;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 15px;
+      background: #00ff99;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 10px;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #00cc77;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 15px;
+      color: #fff;
+      padding: 10px;
+      background: rgba(0, 255, 150, 0.1);
+      border-radius: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🎁 Kode Promo</h2>
+    <input type="text" id="promoInput" placeholder="Masukkan kode promo">
+    <br>
+    <button onclick="cekPromo()">Cek Promo</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    // Format: "KODE_PROMO": { potongan, jenis, kode_penukaran }
+    const kodePromo = {
+      "FFPROMO": { potongan: 2500, jenis: "FREEFIRE", kodeTukar: "FXPRM" },
+      "MLDISC": { potongan: 2700, jenis: "ML", kodeTukar: "MLXTR" },
+      "ROBPREM": { potongan: 5500, jenis: "VOUCHERROBUX", kodeTukar: "RBXRW" },
+      "APKSALE": { potongan: 5000, jenis: "APKPREM", kodeTukar: "APKFX" },
+      "SNSHACK": { potongan: 3000, jenis: "SUNTIKSOS", kodeTukar: "SNTX1" },
+      "BLDSTRIKE": { potongan: 4500, jenis: "BLOODSTRIKE", kodeTukar: "BLD99" },
+      "HOSTPROMO": { potongan: 4000, jenis: "HOST", kodeTukar: "HST12" },
+      "PANELDEAL": { potongan: 6000, jenis: "PANEL", kodeTukar: "PNL55" },
+      "DEVGIFT": { potongan: 8000, jenis: "DEV", kodeTukar: "DV999" }
+    };
+
+    function cekPromo() {
+      const input = document.getElementById("promoInput").value.toUpperCase().trim();
+      const resultDiv = document.getElementById("result");
+
+      // Sudah ditukar?
+      if (localStorage.getItem("promo_" + input)) {
+        resultDiv.style.display = "block";
+        resultDiv.innerHTML = `⚠️ Kode <b>${input}</b> sudah digunakan sebelumnya.`;
+        return;
+      }
+
+      const promo = kodePromo[input];
+      if (promo) {
+        const { potongan, jenis, kodeTukar } = promo;
+
+        // Simpan ke localStorage (menandakan sudah ditukar)
+        localStorage.setItem("promo_" + input, true);
+        localStorage.setItem("kodeTukar_" + jenis, kodeTukar);
+        localStorage.setItem("potongan_" + jenis, potongan);
+
+        resultDiv.style.display = "block";
+        resultDiv.innerHTML = `
+          ✅ Kode berhasil ditukar!<br>
+          Anda mendapatkan pengurangan harga <b>${jenis}</b> Rp.${potongan.toLocaleString()}<br>
+          💡 Kode penukaran Anda: <b>${kodeTukar}</b>
+        `;
+      } else {
+        resultDiv.style.display = "block";
+        resultDiv.innerHTML = `❌ Kode tidak valid.`;
+      }
+    }
+  </script>
+</body>
+</html>

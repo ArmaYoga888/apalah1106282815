@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Fire Top-Up</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #0a0a0a;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  header {
+    background-color: #c40000;
+    padding: 15px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+  .form-section {
+    padding: 15px;
+    background: #111;
+  }
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+  }
+  input, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #c40000;
+    background-color: #1a1a1a;
+    color: white;
+    margin-bottom: 12px;
+  }
+  .container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 15px;
+  }
+  .item {
+    background-color: #1a1a1a;
+    border: 1px solid #c40000;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .item:hover {
+    background-color: #c40000;
+    color: #fff;
+  }
+  .item.active {
+    background-color: #c40000;
+    color: #fff;
+    border: 2px solid #ff6666;
+  }
+  .price {
+    font-weight: bold;
+    color: #ff4444;
+  }
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #111;
+    padding: 15px;
+  }
+  .total {
+    font-size: 18px;
+  }
+  .buy-btn {
+    background: #c40000;
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .buy-btn:hover {
+    background: #ff2222;
+  }
+</style>
+</head>
+<body>
+
+<header>🔥 Top Up Free Fire 🔥</header>
+
+<div class="form-section">
+  <label for="playerId">Masukkan ID Free Fire:</label>
+  <input type="text" id="playerId" placeholder="Contoh: 1234567890">
+
+  <label for="payment">Metode Pembayaran:</label>
+  <select id="payment">
+    <option value="">-- Pilih Pembayaran --</option>
+    <option value="qris">QRIS</option>
+  </select>
+</div>
+
+<div class="container" id="price-list"></div>
+
+<div class="footer">
+  <div class="total">Total: Rp <span id="totalHarga">0</span></div>
+  <button class="buy-btn" onclick="beli()">BUY</button>
+</div>
+
+<script>
+const data = [
+{nama: "50 Diamond", harga: 7347},
+{nama: "55 Diamond", harga: 6481},
+{nama: "60 Diamond", harga: 7200},
+{nama: "70 Diamond", harga: 9720},
+{nama: "75 Diamond", harga: 9796},
+{nama: "80 Diamond", harga: 10384},
+{nama: "90 Diamond", harga: 12067},
+{nama: "95 Diamond", harga: 11537},
+{nama: "100 Diamond", harga: 14249},
+{nama: "120 Diamond", harga: 15051},
+{nama: "130 Diamond", harga: 15080},
+{nama: "140 Diamond", harga: 17812},
+{nama: "145 Diamond", harga: 16711},
+{nama: "150 Diamond", harga: 19593},
+{nama: "160 Diamond", harga: 21414},
+{nama: "170 Diamond", harga: 20007},
+{nama: "180 Diamond", harga: 23222},
+{nama: "190 Diamond", harga: 22560},
+{nama: "200 Diamond", harga: 22973},
+{nama: "210 Diamond", harga: 27552},
+{nama: "250 Diamond", harga: 29650},
+{nama: "280 Diamond", harga: 35623},
+{nama: "300 Diamond", harga: 37602},
+{nama: "350 Diamond", harga: 44637},
+{nama: "355 Diamond", harga: 44529},
+{nama: "360 Diamond", harga: 44848},
+{nama: "375 Diamond", harga: 48091},
+{nama: "400 Diamond", harga: 47787},
+{nama: "405 Diamond", harga: 51655},
+{nama: "420 Diamond", harga: 51027},
+{nama: "425 Diamond", harga: 53436},
+{nama: "475 Diamond", harga: 54066},
+{nama: "495 Diamond", harga: 62341},
+{nama: "500 Diamond", harga: 63232},
+{nama: "510 Diamond", harga: 64190},
+{nama: "512 Diamond", harga: 64996},
+{nama: "515 Diamond", harga: 64935},
+{nama: "520 Diamond", harga: 65659},
+{nama: "545 Diamond", harga: 61319},
+{nama: "565 Diamond", harga: 69231},
+{nama: "600 Diamond", harga: 74816},
+{nama: "635 Diamond", harga: 75698},
+{nama: "645 Diamond", harga: 80525},
+{nama: "655 Diamond", harga: 81734},
+{nama: "700 Diamond", harga: 87912},
+{nama: "710 Diamond", harga: 86147},
+{nama: "720 Diamond", harga: 89059},
+{nama: "725 Diamond", harga: 79665},
+{nama: "740 Diamond", harga: 90208},
+{nama: "770 Diamond", harga: 94473},
+{nama: "790 Diamond", harga: 96874},
+{nama: "800 Diamond", harga: 95970},
+{nama: "860 Diamond", harga: 107936},
+{nama: "925 Diamond", harga: 112494},
+{nama: "930 Diamond", harga: 106488},
+{nama: "1000 Diamond", harga: 124137},
+{nama: "1050 Diamond", harga: 130461},
+{nama: "1060 Diamond", harga: 132071},
+{nama: "1075 Diamond", harga: 134479},
+{nama: "1080 Diamond", harga: 132897},
+{nama: "1200 Diamond", harga: 147914},
+{nama: "1215 Diamond", harga: 148349},
+{nama: "1300 Diamond", harga: 168328},
+{nama: "1440 Diamond", harga: 179893},
+{nama: "1450 Diamond", harga: 182591},
+{nama: "1490 Diamond", harga: 183591},
+{nama: "1510 Diamond", harga: 186006},
+{nama: "1580 Diamond", harga: 202653},
+{nama: "1795 Diamond", harga: 221426},
+{nama: "1800 Diamond", harga: 225913},
+{nama: "1875 Diamond", harga: 236948},
+{nama: "1975 Diamond", harga: 250114},
+{nama: "2000 Diamond", harga: 247100},
+{nama: "2005 Diamond", harga: 251117},
+{nama: "2100 Diamond", harga: 266765},
+{nama: "2140 Diamond", harga: 262816},
+{nama: "2180 Diamond", harga: 275517},
+{nama: "2190 Diamond", harga: 272141},
+{nama: "2200 Diamond", harga: 269006},
+{nama: "2210 Diamond", harga: 270477},
+{nama: "2225 Diamond", harga: 268008},
+{nama: "2280 Diamond", harga: 278238},
+{nama: "2350 Diamond", harga: 267639},
+{nama: "2355 Diamond", harga: 288971},
+{nama: "2575 Diamond", harga: 321060},
+{nama: "2720 Diamond", harga: 332670},
+{nama: "2750 Diamond", harga: 339466},
+{nama: "3000 Diamond", harga: 373072},
+{nama: "3310 Diamond", harga: 417489},
+{nama: "3620 Diamond", harga: 438325},
+{nama: "3640 Diamond", harga: 442998},
+{nama: "3675 Diamond", harga: 439347},
+{nama: "3800 Diamond", harga: 447608},
+{nama: "4000 Diamond", harga: 481496},
+{nama: "4050 Diamond", harga: 476348},
+{nama: "4340 Diamond", harga: 516120},
+{nama: "4450 Diamond", harga: 522394},
+{nama: "4720 Diamond", harga: 554576},
+{nama: "4800 Diamond", harga: 560446},
+{nama: "4850 Diamond", harga: 585223},
+{nama: "5500 Diamond", harga: 674849},
+{nama: "5600 Diamond", harga: 700587},
+{nama: "6000 Diamond", harga: 720547},
+{nama: "6480 Diamond", harga: 768809},
+{nama: "6550 Diamond", harga: 859510},
+{nama: "6900 Diamond", harga: 815660},
+{nama: "7290 Diamond", harga: 890588},
+{nama: "7295 Diamond", harga: 915893},
+{nama: "7310 Diamond", harga: 883642},
+{nama: "7340 Diamond", harga: 886843},
+{nama: "7360 Diamond", harga: 941222},
+{nama: "7430 Diamond", harga: 898049},
+{nama: "7645 Diamond", harga: 902387},
+{nama: "7650 Diamond", harga: 925288},
+{nama: "8010 Diamond", harga: 968509},
+{nama: "9800 Diamond", harga: 1188619},
+{nama: "14580 Diamond", harga: 1760880},
+{nama: "36500 Diamond", harga: 4452940},
+{nama: "73100 Diamond", harga: 8905878},
+];
+
+const container = document.getElementById('price-list');
+let selectedItem = null;
+let selectedHarga = 0;
+
+data.forEach(item => {
+  let hargaTotal = item.harga + 1300; // +2000 tambahan otomatis
+  const div = document.createElement('div');
+  div.className = 'item';
+  div.innerHTML = `
+    <div>${item.nama}</div>
+    <div class="price">Rp ${hargaTotal.toLocaleString()}</div>
+  `;
+  div.addEventListener('click', () => {
+    document.querySelectorAll('.item').forEach(i => i.classList.remove('active'));
+    div.classList.add('active');
+    selectedItem = item.nama;
+    selectedHarga = hargaTotal;
+    document.getElementById('totalHarga').textContent = hargaTotal.toLocaleString();
+  });
+  container.appendChild(div);
+});
+
+function beli() {
+  const id = document.getElementById('playerId').value.trim();
+  const payment = document.getElementById('payment').value;
+  if (!id || !selectedItem || !payment) {
+    alert("Harap isi semua data terlebih dahulu!");
+    return;
+  }
+
+  const jumlahDM = selectedItem.replace(' DM', '');
+  const pesan = `.ffdm ${jumlahDM}||${payment}||${selectedHarga}||${id}`;
+
+  // Ganti nomor WhatsApp admin kamu di sini
+  const nomorAdmin = "6289510356958";
+  const link = `https://wa.me/${nomorAdmin}?text=${encodeURIComponent(pesan)}`;
+
+  window.open(link, '_blank');
+}
+</script>
+
+</body>
+</html>
