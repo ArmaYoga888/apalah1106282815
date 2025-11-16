@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Produk Hosting - Arvalon Cloud Network</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+
+  body {
+    background-color: #f2f2f2;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    background-color: #b30000;
+    color: white;
+    padding: 18px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  main {
+    flex: 1;
+    padding: 15px;
+  }
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .kotak {
+    width: 48%;
+    margin: 10px 0;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: white;
+    text-align: center;
+  }
+
+  .kotak h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #b30000;
+  }
+
+  .kotak p {
+    font-size: 15px;
+    color: #444;
+    text-align: center;
+  }
+
+  button {
+    background-color: #b30000;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    display: block;
+    margin: 10px auto;
+    font-weight: 600;
+  }
+
+  button:hover {
+    background-color: #8c0000;
+  }
+
+  .popup-spesifikasi, .popup-beli {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 400px;
+    z-index: 2;
+    text-align: center;
+  }
+
+  .popup-spesifikasi h2, .popup-beli h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #b30000;
+  }
+
+  .popup-spesifikasi p {
+    font-size: 16px;
+    color: #666;
+  }
+
+  .btn-close {
+    background-color: #4CAF50;
+    color: #fff;
+    margin-top: 15px;
+  }
+
+  .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+  }
+
+  footer {
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+  }
+
+  footer a {
+    color: #555;
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  footer a i {
+    font-size: 22px;
+    margin-bottom: 4px;
+  }
+
+  input, select {
+    width: 90%;
+    padding: 8px;
+    margin: 8px auto;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.CloudFlare, Database, PhpMyAdmin.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<header>Produk Resmi Arvalon Cloud Network</header>
+
+<main>
+  <div class="container">
+
+<div class="kotak" data-nama="Basic" data-harga="10000" data-cpu="450%" data-ram="20" data-disk="15" data-slot="50">
+  <h2>Paket Basic</h2>
+  <p>Harga: Rp 10.000</p>
+  <button class="btn-spesifikasi">Lihat Spesifikasi</button>
+  <button class="btn-beli">Beli</button>
+  <div class="popup-spesifikasi">
+    <h2>Spesifikasi</h2>
+    <p>Ram : 20GB</p>
+    <p>Disk : 15GB</p>
+    <p>CPU : 450%</p>
+    <p>Slot Player : 50</p>
+    <p>Fitur: Open Port Voice, DDoS Protection, CloudFlare, Database, PhpMyAdmin</p>
+    <button class="btn-close">Tutup</button>
+  </div>
+</div>
+
+<div class="kotak" data-nama="Premium" data-harga="20000" data-cpu="650%" data-ram="40" data-disk="35" data-slot="100">
+  <h2>Paket Premium</h2>
+  <p>Harga: Rp 20.000</p>
+  <button class="btn-spesifikasi">Lihat Spesifikasi</button>
+  <button class="btn-beli">Beli</button>
+  <div class="popup-spesifikasi">
+    <h2>Spesifikasi</h2>
+    <p>Ram : 40GB</p>
+    <p>Disk : 35GB</p>
+    <p>CPU : 650%</p>
+    <p>Slot Player : 100</p>
+    <p>Fitur: Open Port Voice, DDoS Protection, CloudFlare, Database, PhpMyAdmin</p>
+    <button class="btn-close">Tutup</button>
+  </div>
+</div>
+
+<div class="kotak" data-nama="Pro" data-harga="30000" data-cpu="750%" data-ram="60" data-disk="55" data-slot="200">
+  <h2>Paket Pro</h2>
+  <p>Harga: Rp 30.000</p>
+  <button class="btn-spesifikasi">Lihat Spesifikasi</button>
+  <button class="btn-beli">Beli</button>
+  <div class="popup-spesifikasi">
+    <h2>Spesifikasi</h2>
+    <p>Ram : 60GB</p>
+    <p>Disk : 55GB</p>
+    <p>CPU : 750%</p>
+    <p>Slot Player : 200</p>
+    <p>Fitur: Open Port Voice, DDoS Protection, CloudFlare, Database, PhpMyAdmin</p>
+    <button class="btn-close">Tutup</button>
+  </div>
+</div>
+
+<div class="kotak" data-nama="Ultimate" data-harga="40000" data-cpu="850%" data-ram="90" data-disk="85" data-slot="300">
+  <h2>Paket Ultimate</h2>
+  <p>Harga: Rp 40.000</p>
+  <button class="btn-spesifikasi">Lihat Spesifikasi</button>
+  <button class="btn-beli">Beli</button>
+  <div class="popup-spesifikasi">
+    <h2>Spesifikasi</h2>
+    <p>Ram : 90GB</p>
+    <p>Disk : 85GB</p>
+    <p>CPU : 850%</p>
+    <p>Slot Player : 300</p>
+    <p>Fitur: Open Port Voice, DDoS Protection, CloudFlare, Database, PhpMyAdmin</p>
+    <button class="btn-close">Tutup</button>
+  </div>
+</div>
+
+    </div>
+
+  </div>
+</main>
+
+<div class="overlay"></div>
+
+<!-- Popup konfirmasi beli -->
+<div class="popup-beli" id="popupBeli">
+  <h2>Isi Data Pembelian</h2>
+  <input type="text" id="username" placeholder="Masukkan Username" />
+  <select id="osSelect">
+    <option value="Linux">Linux</option>
+    <option value="Windows">Windows</option>
+  </select>
+  <button id="konfirmasiBeli">Konfirmasi & Beli</button>
+  <button id="closeBeli" class="btn-close">Tutup</button>
+</div>
+
+<footer>
+  <a href="index.html"><i class="fas fa-home"></i>Home</a>
+  <a href="#"><i class="fas fa-exchange-alt"></i>Transaksi</a>
+  <a href="#"><i class="fas fa-book"></i>Catatan</a>
+  <a href="#"><i class="fas fa-ellipsis-h"></i>Lainnya</a>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const overlay = document.querySelector('.overlay');
+  let produkAktif = null;
+
+  // Tombol spesifikasi
+  document.querySelectorAll('.btn-spesifikasi').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const kotak = btn.closest('.kotak');
+      const popup = kotak.querySelector('.popup-spesifikasi');
+      popup.style.display = 'block';
+      overlay.style.display = 'block';
+    });
+  });
+
+  // Tutup popup
+  document.querySelectorAll('.btn-close').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.closest('.popup-spesifikasi, .popup-beli').style.display = 'none';
+      overlay.style.display = 'none';
+    });
+  });
+
+  // Tombol beli
+  document.querySelectorAll('.btn-beli').forEach(btn => {
+    btn.addEventListener('click', () => {
+      produkAktif = btn.closest('.kotak');
+      document.getElementById('popupBeli').style.display = 'block';
+      overlay.style.display = 'block';
+    });
+  });
+
+  // Konfirmasi beli
+  document.getElementById('konfirmasiBeli').addEventListener('click', () => {
+    const username = document.getElementById('username').value.trim();
+    const os = document.getElementById('osSelect').value;
+
+    if (!username) {
+      alert('Isi username terlebih dahulu!');
+      return;
+    }
+
+    const nama = produkAktif.dataset.nama || "Tidak ada";
+    const harga = produkAktif.dataset.harga || "0";
+    const cpu = produkAktif.dataset.cpu || "N/A";
+    const ram = produkAktif.dataset.ram || "N/A";
+    const disk = produkAktif.dataset.disk || "N/A";
+    const slot = produkAktif.dataset.slot || "0"; // ✅ FIX SLOT
+
+    // Format pesan WA
+    const pesan = `.host ${os.toLowerCase()}||${harga}||${cpu}||${ram}||${disk}||${username}||${slot}`;
+    const noAdmin = "6289510356958"; // ⚠️ Ganti ke nomor WA lo
+
+    const url = `https://wa.me/${noAdmin}?text=${encodeURIComponent(pesan)}`;
+    window.open(url, "_blank");
+
+    document.getElementById('popupBeli').style.display = 'none';
+    overlay.style.display = 'none';
+  });
+});
+</script>
+
+</body>
+</html>
